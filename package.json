@@ -18,5 +18,8 @@
   "homepage": "https://github.com/MaylsonMoraes/learncrudnodejs#readme",
   "dependencies": {
     "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13"
   }
 }
