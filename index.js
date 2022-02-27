@@ -1,45 +1,50 @@
 const express = require ('express');
-
-const server = express();
-
-server.use(express.json());
-//to star node index.js
+const mongoose = require('mongoose');
+const app = express();
+app.use(express.json());
+//to start node index.js
 
 const categorias = ['Contratos de projetos', 'Qualificação econômico financeira' , 'Qualificação jurídica' ];
-//one
-server.get('/categorias/:index', (req, res) => {
-    const { index } = req.params;
+//imagem aleatoria
+app.get('/categorias/:id', (req, res) => {
+    const { id } = req.params;
 
-    return res.json(categorias[index]);
+    return res.json(categorias[id]);
     
 });
-//all
-server.get('/categorias', (req, res) => {
+//list all em ordem decrescente
+app.get('/categorias', (req, res) => {
     return res.json(categorias);
 })
-//new
-server.post('/categorias', (req, res) => {
+//add new imagem com titulo e endereço
+app.post('/categorias', (req, res) => {
     const { name } = req.body;
     categorias.push(name);
 
     return res.json(categorias);
 });
-//update
-server.put('/categorias/:index', (req, res) => {
-    const { index } = req.params;
+//edit update
+app.put('/categorias/:id', (req, res) => {
+    const { id } = req.params;
     const { name } = req.body;
 
-    categorias[index] = name;
+    categorias[id] = name;
 
     return res.json(categorias);
 });
 //delete
-server.delete('/categorias/:index', (req, res) => {
-    const { index } = req.params;
+app.delete('/categorias/:id', (req, res) => {
+    const { id } = req.params;
 
-    categorias.splice(index, 1);
+    categorias.splice(id, 1);
     return res.json({ message: "A categoria foi deletada"});
 });
 
-
-server.listen(3000);
+mongoose.connect('mongodb://localhost:27017', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    
+});
+app.listen(3000, () => {
+    console.log('Server ON');
+});
